@@ -83,7 +83,6 @@ namespace WPEFramework {
 	        void process (const Polling &msg, const Header &header);
                 void process (const InitiateArc &msg, const Header &header);
                 void process (const TerminateArc &msg, const Header &header);
-                void process (const ReportShortAudioDescriptor  &msg, const Header &header);
         private:
             Connection conn;
             void printHeader(const Header &header)
@@ -514,9 +513,6 @@ private:
                         void Process_InitiateArc();
                         void Process_TerminateArc();
                         void updateArcState();
-                        void requestShortaudioDescriptor();
-                        void Send_ShortAudioDescriptor_Event(JsonArray audiodescriptor);
-		        void Process_ShortAudioDescriptor_msg(const ReportShortAudioDescriptor  &msg);
 			int m_numberOfDevices; /* Number of connected devices othethan own device */
         private:
             // We do not allow this plugin to be copied !!
@@ -540,7 +536,7 @@ private:
 			uint32_t requestActiveSourceWrapper(const JsonObject& parameters, JsonObject& response);
                         uint32_t setArcEnableDisableWrapper(const JsonObject& parameters, JsonObject& response);
 			uint32_t setMenuLanguageWrapper(const JsonObject& parameters, JsonObject& response);
-                        uint32_t requestShortAudioDescriptorWrapper(const JsonObject& parameters, JsonObject& response);
+
 			
             //End methods
             std::string logicalAddressDeviceType;
