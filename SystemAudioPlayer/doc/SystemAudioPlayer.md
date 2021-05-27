@@ -1,12 +1,12 @@
 <!-- Generated automatically, DO NOT EDIT! -->
-<a name="head.TextToSpeech_Plugin"></a>
-# TextToSpeech Plugin
+<a name="head.System Audio Player"></a>
+# System Audio Player
 
-**Version: 1.0**
+**Version: 0.1**
 
 **Status: :black_circle::black_circle::black_circle:**
 
-TextToSpeech plugin for Thunder framework.
+System Audio Player  plugin for Thunder framework.
 
 ### Table of Contents
 
@@ -22,7 +22,7 @@ TextToSpeech plugin for Thunder framework.
 <a name="head.Scope"></a>
 ## Scope
 
-This document describes purpose and functionality of the TextToSpeech plugin. It includes detailed specification of its configuration, methods provided and notifications sent.
+This document describes purpose and functionality of the System Audio Player plugin. This is audio player can play  raw pcm audio as well as mp3. It supports file playback, http source playback & data buffer playback.
 
 <a name="head.Case_Sensitivity"></a>
 ## Case Sensitivity
@@ -60,7 +60,7 @@ The table below provides and overview of terms and abbreviations used in this do
 <a name="head.Description"></a>
 # Description
 
-The TextToSpeech plugin provides TTS functionality (Voice Guidance & Speech Synthesis) for the client application.
+The System Audio player plugin provides playback of system audio( pcm/mp3/data buffer. 
 
 The plugin is designed to be loaded and executed within the Thunder framework. For more information about the framework refer to [[Thunder](#ref.Thunder)].
 
@@ -71,9 +71,9 @@ The table below lists configuration options of the plugin.
 
 | Name | Type | Description |
 | :-------- | :-------- | :-------- |
-| callsign | string | Plugin instance name (default: *org.rdk.TextToSpeech*) |
-| classname | string | Class name: *TextToSpeech* |
-| locator | string | Library name: *libWPEFrameworkTextToSpeech.so* |
+| callsign | string | Plugin instance name (default: *org.rdk.SystemAudioPlayer*) |
+| classname | string | Class name: *SystemAudioPlayer* |
+| locator | string | Library name: *libWPEFrameworkSystemAudioPlayer.so* |
 | autostart | boolean | Determines if the plugin is to be started automatically along with the framework |
 
 <a name="head.Methods"></a>
@@ -81,7 +81,7 @@ The table below lists configuration options of the plugin.
 
 The following methods are provided by the TextToSpeech plugin:
 
-TextToSpeech interface methods:
+System Audio Player  interface methods:
 
 | Method | Description |
 | :-------- | :-------- |
