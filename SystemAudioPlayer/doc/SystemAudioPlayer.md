@@ -85,18 +85,11 @@ System Audio Player  interface methods:
 
 | Method | Description |
 | :-------- | :-------- |
-| [enabletts](#method.enabletts) | (For Resident App) Enables/Disables the Text To Speech conversion processing |
-| [listvoices](#method.listvoices) | Lists the available voices for the mentioned language |
-| [setttsconfiguration](#method.setttsconfiguration) | Sets the TTS configuration |
-| [getttsconfiguration](#method.getttsconfiguration) | Gets the current TTS Engine configuration |
-| [isttsenabled](#method.isttsenabled) | Checks whether TTS Engine is enabled or not |
-| [speak](#method.speak) | Starts a speech |
-| [pause](#method.pause) | Pause the speech |
-| [resume](#method.resume) | Resumes the speech |
-| [cancel](#method.cancel) | Cancels the speech |
-| [isspeaking](#method.isspeaking) | Checks if any speech is in progress |
-| [getspeechstate](#method.getspeechstate) | Queries state of speech request |
-| [getapiversion](#method.getapiversion) | Gets the apiversion |
+|
+
+| [open](#method.open) | Open System Audio Player for playback |
+| [close](#method.close) | Destroy System Audio Player |
+| [stop](#method.close) | Stop Playback |
 
 <a name="method.enabletts"></a>
 ## *enabletts <sup>method</sup>*
