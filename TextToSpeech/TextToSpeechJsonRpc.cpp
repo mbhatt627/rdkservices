@@ -35,8 +35,40 @@ namespace Plugin {
         registerMethod("resume", &TextToSpeech::Resume, this);
         registerMethod("isspeaking", &TextToSpeech::IsSpeaking, this);
         registerMethod("getspeechstate", &TextToSpeech::GetSpeechState, this);
+        registerMethod("updateACL", &TextToSpeech::UpdateACL, this);
         registerMethod("getapiversion", &TextToSpeech::getapiversion, this);
     }
+
+  /*  bool TextToSpeech::CheckToken(const string& token, const string& method, const string& parameters)
+    {
+        TTSLOG_ERROR("vishnu1 .....token->%s  method->%s parameters->%s\n",token.c_str(),method.c_str(),parameters.c_str());
+        if(m_RA && !method.compare("speak"))
+         {
+            std::string::size_type pos = token.find("://");
+            std::string temp = token;
+            if ( pos != string::npos) temp.erase(0,pos+3);
+            if(temp.compare(m_callsign) != 0)
+             {
+                 return false;
+             }
+
+         }
+
+        return true;
+    } */
+
+   /*  uint32_t TextToSpeech::UpdateACL(const JsonObject& parameters, JsonObject& response)
+    {
+            m_RA = true;
+            string params, result;
+            parameters.ToString(params);
+            m_callMutex.lock();
+            m_callsign.assign(parameters["callsign"].String());
+            m_callMutex.unlock();
+            response["callsign"] = parameters["callsign"].String();
+            returnResponse(true);
+    }
+    */
 
     uint32_t TextToSpeech::Enable(const JsonObject& parameters, JsonObject& response)
     {
@@ -164,6 +196,27 @@ namespace Plugin {
             parameters.ToString(params);
             uint32_t ret = _tts->GetSpeechState(params, result);
             response.FromString(result);
+            return ret;
+        }
+        return Core::ERROR_NONE;
+    }
+
+    uint32_t TextToSpeech::UpdateACL(const JsonObject& parameters, JsonObject& response)
+    {
+        if(_tts) {
+            string params, result;
+            parameters.ToString(params);
+            uint32_t ret = _tts->UpdateACL(params, result);
+            response.FromString(result);
+            return ret;
+        }
+        return Core::ERROR_NONE;
+    }
+     bool TextToSpeech::CheckToken(const string& token, const string& method, const string& parameters)
+    {
+       TTSLOG_ERROR("vishnu0 jsonrpc .....token->%s  method->%s parameters->%s\n",token.c_str(),method.c_str(),parameters.c_str());
+        if(_tts) {
+            bool ret = _tts->CheckToken(token,method,parameters);
             return ret;
         }
         return Core::ERROR_NONE;

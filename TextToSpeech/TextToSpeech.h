@@ -43,6 +43,7 @@ namespace Plugin {
 
     class TextToSpeech: public AbstractPlugin {
     public:
+
         class Notification : public RPC::IRemoteConnection::INotification,
                              public Exchange::ITextToSpeech::INotification {
             private:
@@ -140,7 +141,7 @@ namespace Plugin {
         TextToSpeech& operator=(const TextToSpeech&) = delete;
 
         void RegisterAll();
-
+        bool CheckToken(const string& token, const string& method, const string& parameters);
         //TTS Global APIS for Resident application
         uint32_t Enable(const JsonObject& parameters, JsonObject& response);
         uint32_t ListVoices(const JsonObject& parameters, JsonObject& response);
@@ -157,6 +158,7 @@ namespace Plugin {
         uint32_t Resume(const JsonObject& parameters, JsonObject& response);
         uint32_t IsSpeaking(const JsonObject& parameters, JsonObject& response);
         uint32_t GetSpeechState(const JsonObject& parameters, JsonObject& response);
+        uint32_t UpdateACL(const JsonObject& parameters, JsonObject& response);
 
         //version number API's
         uint32_t getapiversion(const JsonObject& parameters, JsonObject& response);
@@ -167,6 +169,9 @@ namespace Plugin {
     private:
         uint8_t _skipURL;
         uint32_t _connectionId;
+        //bool m_RA;
+        //std::string m_callsign;
+        //std::mutex m_callMutex;
         PluginHost::IShell* _service;
         Exchange::ITextToSpeech* _tts;
         Core::Sink<Notification> _notification;

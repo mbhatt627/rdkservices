@@ -150,6 +150,15 @@ namespace Plugin {
         returnResponse(status == TTS::TTS_OK);
     }
 
+    bool TextToSpeechImplementation::CheckToken(const string& token, const string& method, const string& parameters)
+    {
+        TTSLOG_ERROR("vishnu1 wpeproces .....token->%s  method->%s parameters->%s\n",token.c_str(),method.c_str(),parameters.c_str());
+        _adminLock.Lock();
+       auto ret = _ttsManager->checkToken(token,method,parameters);
+        _adminLock.Unlock();
+        return ret;
+    }
+
     uint32_t TextToSpeechImplementation::ListVoices(const string &input, string &output)
     {
         CONVERT_PARAMETERS_TOJSON();
@@ -169,6 +178,24 @@ namespace Plugin {
         logResponse(status,response);
         returnResponse(status == TTS::TTS_OK);
     }
+
+     uint32_t TextToSpeechImplementation::UpdateACL(const string &input, string &output)
+    {
+        CONVERT_PARAMETERS_TOJSON();
+        CHECK_TTS_MANAGER_RETURN_ON_FAIL();
+        CHECK_TTS_PARAMETER_RETURN_ON_FAIL("callsign");
+
+        _adminLock.Lock();
+
+        auto status = _ttsManager->updateACL(parameters["callsign"].String());
+
+        _adminLock.Unlock();
+        response["callsign"] = parameters["callsign"].String();
+
+        logResponse(status,response);
+        returnResponse(status == TTS::TTS_OK);
+    }
+
 
     uint32_t TextToSpeechImplementation::SetConfiguration(const string &input, string &output)
     {

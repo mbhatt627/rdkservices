@@ -46,6 +46,8 @@ namespace Exchange {
         virtual uint32_t Resume(const string &input, string &output /* @out */) = 0;
         virtual uint32_t IsSpeaking(const string &input, string &output /* @out */) = 0;
         virtual uint32_t GetSpeechState(const string &input, string &output /* @out */) = 0;
+        virtual uint32_t UpdateACL(const string &input, string &output /* @out */) = 0;
+        virtual bool CheckToken(const string& token, const string& method, const string& parameters) = 0;
 
     };
 

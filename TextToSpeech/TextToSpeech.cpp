@@ -34,6 +34,8 @@ namespace Plugin {
     const string TextToSpeech::Initialize(PluginHost::IShell* service)
     {
         ASSERT(_service == nullptr);
+        //PluginHost::JSONRPCSupportsEventStatus(std::bind(&TextToSpeech::CheckToken, this,
+        //            std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 
         _connectionId = 0;
         _service = service;
@@ -90,10 +92,12 @@ namespace Plugin {
     }
 
     TextToSpeech::TextToSpeech()
-            : AbstractPlugin()
+            : AbstractPlugin(std::bind(&TextToSpeech::CheckToken, this,
+                    std::placeholders::_1, std::placeholders::_2, std::placeholders::_3))
             , _apiVersionNumber(API_VERSION_NUMBER)
             , _notification(this)
     {
+
     }
 
     TextToSpeech::~TextToSpeech()

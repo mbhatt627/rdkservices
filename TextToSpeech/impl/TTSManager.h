@@ -66,9 +66,11 @@ public:
     // TTS Global APIs
     TTS_Error enableTTS(bool enable);
     bool isTTSEnabled();
+    bool checkToken(const string& token, const string& method, const string& parameters);
     TTS_Error listVoices(std::string language, std::vector<std::string> &voices);
     TTS_Error setConfiguration(Configuration &configuration);
     TTS_Error getConfiguration(Configuration &configuration);
+    TTS_Error updateACL(std::string callsign);
 
     //Speak APIs
     TTS_Error speak(int speechId, std::string text);
@@ -95,6 +97,9 @@ public:
 private:
     TTSConfiguration m_defaultConfiguration;
     TTSEventCallback *m_callback;
+    bool m_RA;
+    std::string m_callsign;
+    //std::mutex m_callMutex;
     TTSSpeaker *m_speaker;
 };
 

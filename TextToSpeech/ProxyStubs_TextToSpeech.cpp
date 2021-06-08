@@ -37,6 +37,8 @@ namespace ProxyStubs {
     //  (11) virtual uint32_t Resume(const string&, string&) = 0
     //  (12) virtual uint32_t IsSpeaking(const string&, string&) = 0
     //  (13) virtual uint32_t GetSpeechState(const string&, string&) = 0
+    //  (14) virtual uint32_t UpdateACL(const string&, string&) = 0
+    //  (15) virtual bool CheckToken(const string& token, const string& method, const string& parameters) = 0
     //
 
     ProxyStub::MethodHandler TextToSpeechStubMethods[] = {
@@ -362,6 +364,52 @@ namespace ProxyStubs {
             writer.Text(param1);
         },
 
+       // virtual uint32_t UpdateACL(const string&, string&) = 0
+        //
+        [](Core::ProxyType<Core::IPCChannel>& channel VARIABLE_IS_NOT_USED, Core::ProxyType<RPC::InvokeMessage>& message) {
+            RPC::Data::Input& input(message->Parameters());
+
+            // read parameters
+            RPC::Data::Frame::Reader reader(input.Reader());
+            const string param0 = reader.Text();
+            string param1{}; // storage
+
+            // call implementation
+            ITextToSpeech* implementation = reinterpret_cast<ITextToSpeech*>(input.Implementation());
+            ASSERT((implementation != nullptr) && "Null ITextToSpeech implementation pointer");
+            const uint32_t output = implementation->UpdateACL(param0, param1);
+
+            // write return values
+            RPC::Data::Frame::Writer writer(message->Response().Writer());
+            writer.Number<const uint32_t>(output);
+            writer.Text(param1);
+        },
+
+        //bool CheckToken(const string& token, const string& method, const string& parameters)
+        [](Core::ProxyType<Core::IPCChannel>& channel VARIABLE_IS_NOT_USED, Core::ProxyType<RPC::InvokeMessage>& message) {
+            RPC::Data::Input& input(message->Parameters());
+
+            // read parameters
+            RPC::Data::Frame::Reader reader(input.Reader());
+            const string param0 = reader.Text();
+            const string param1 = reader.Text();
+            const string param2 = reader.Text();
+            //string param1{}; // storage
+
+            // call implementation
+            ITextToSpeech* implementation = reinterpret_cast<ITextToSpeech*>(input.Implementation());
+            ASSERT((implementation != nullptr) && "Null ITextToSpeech implementation pointer");
+            const bool output = implementation->CheckToken(param0, param1,param2);
+
+            // write return values
+            RPC::Data::Frame::Writer writer(message->Response().Writer());
+            //writer.Number<const bool>(output);
+            writer.Boolean(output);
+            //writer.Vishnu(output);
+            //writer.Text(param1);
+        },
+
+
         nullptr
     }; // TextToSpeechStubMethods[]
 
@@ -573,6 +621,8 @@ namespace ProxyStubs {
     //  (11) virtual uint32_t Resume(const string&, string&) = 0
     //  (12) virtual uint32_t IsSpeaking(const string&, string&) = 0
     //  (13) virtual uint32_t GetSpeechState(const string&, string&) = 0
+    //  (14) virtual uint32_t UpdateACL(const string&, string&) = 0
+    //  (15) virtual bool CheckToken(const string& token, const string& method, const string& parameters) = 0
     //
 
     class TextToSpeechProxy final : public ProxyStub::UnknownProxyType<ITextToSpeech> {
@@ -854,6 +904,50 @@ namespace ProxyStubs {
 
             return output;
         }
+
+        uint32_t UpdateACL(const string& param0, string& /* out */ param1) override
+        {
+            IPCMessage newMessage(BaseClass::Message(14));
+
+            // write parameters
+            RPC::Data::Frame::Writer writer(newMessage->Parameters().Writer());
+            writer.Text(param0);
+
+            // invoke the method handler
+            uint32_t output{};
+            if ((output = Invoke(newMessage)) == Core::ERROR_NONE) {
+                // read return values
+                RPC::Data::Frame::Reader reader(newMessage->Response().Reader());
+                output = reader.Number<uint32_t>();
+                param1 = reader.Text();
+            }
+
+            return output;
+        }
+         bool CheckToken(const string& param0, const string& param1, const string& param2) override
+         {
+             IPCMessage newMessage(BaseClass::Message(15));
+
+            // write parameters
+            RPC::Data::Frame::Writer writer(newMessage->Parameters().Writer());
+            writer.Text(param0);
+            writer.Text(param1);
+            writer.Text(param2);
+
+            // invoke the method handler
+            bool output{};
+            if ((output = Invoke(newMessage)) == Core::ERROR_NONE) {
+                // read return values
+                RPC::Data::Frame::Reader reader(newMessage->Response().Reader());
+                //output = reader.Number<bool>();
+                 output = reader.Boolean();
+                //param1 = reader.Text();
+             }
+
+            return output;
+
+         }
+
     }; // class TextToSpeechProxy
 
     //

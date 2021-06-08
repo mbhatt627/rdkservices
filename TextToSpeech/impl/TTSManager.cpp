@@ -29,6 +29,7 @@ TTSManager* TTSManager::create(TTSEventCallback *eventCallback)
 
 TTSManager::TTSManager(TTSEventCallback *callback) :
     m_callback(callback),
+    m_RA(false),
     m_speaker(NULL){
 
     TTSLOG_TRACE("TTSManager::TTSManager");
@@ -64,6 +65,30 @@ TTS_Error TTSManager::enableTTS(bool enable) {
 
 bool TTSManager::isTTSEnabled() {
     return m_defaultConfiguration.enabled();
+}
+
+bool TTSManager::checkToken(const string& token, const string& method, const string& parameters) {
+
+    TTSLOG_ERROR("vishnu1 ttsmanager.....token->%s  method->%s parameters->%s\n",token.c_str(),method.c_str(),parameters.c_str());
+    if(m_RA && !method.compare("speak"))
+    {
+        std::string::size_type pos = token.find("://");
+        std::string temp = token;
+        temp.erase(0,pos+3);
+        if(temp.compare(m_callsign) != 0)
+        {
+            TTSLOG_ERROR("vishnu1 ttsmanager token %s and callsign %s no match\n",temp.c_str(),m_callsign.c_str());
+            return false;
+        }
+    }
+    return true;
+}
+
+TTS_Error TTSManager::updateACL(std::string callsign) {
+
+      m_RA = true;
+      m_callsign.assign(callsign);
+      return TTS_OK;
 }
 
 TTS_Error TTSManager::listVoices(std::string language, std::vector<std::string> &voices) {
