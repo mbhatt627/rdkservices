@@ -74,7 +74,7 @@ bool TTSManager::checkToken(const string& token, const string& method, const str
     {
         std::string::size_type pos = token.find("://");
         std::string temp = token;
-        temp.erase(0,pos+3);
+        if( pos != std::string::n_pos) temp.erase(0,pos+3);
         if(temp.compare(m_callsign) != 0)
         {
             TTSLOG_ERROR("vishnu1 ttsmanager token %s and callsign %s no match\n",temp.c_str(),m_callsign.c_str());
