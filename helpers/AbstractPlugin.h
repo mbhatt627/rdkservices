@@ -108,6 +108,17 @@ namespace WPEFramework {
                 Utils::Telemetry::init();
             }
 
+	    AbstractPlugin(const TokenCheckFunction& validation) : PluginHost::JSONRPC(validation), m_currVersion(1)
+            {
+                m_versionHandlers[1] = GetHandler(1);
+
+                registerMethod("getQuirks", &AbstractPlugin::getQuirks, this);
+
+                Utils::Telemetry::init();
+
+            }
+
+
             AbstractPlugin(const uint8_t currVersion) : PluginHost::JSONRPC(), m_currVersion(currVersion)
             {
                 // Create handlers for all the versions upto m_currVersion
