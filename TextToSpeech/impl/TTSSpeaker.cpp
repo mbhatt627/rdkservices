@@ -857,14 +857,14 @@ void TTSSpeaker::speakText(TTSConfiguration config, SpeechData &data) {
         g_object_set(G_OBJECT(m_audioVolume), "volume", (double) (data.client->configuration()->volume() / MAX_VOLUME), NULL);
 #else //AMLOGIC
         if(preVol != data.client->configuration()->volume()) {
-           double volGain = data.client->configuration()->volume()/100;
-           //convert voltage gain/loss to db
-           double dbOut = round(1000000*20*(std::log(volGain)/std::log(10)))/1000000;
-	   setMixGain(MIXGAIN_SYS,round(dbOut));
-	   TTSLOG_VERBOSE("Pre vol=%0.5f Cur vol=%0.5f volGain=%0.5f dbOut =%0.5f", preVol,data.client->configuration()->volume(), 
+            double volGain = data.client->configuration()->volume()/100;
+            //convert voltage gain/loss to db
+            double dbOut = round(1000000*20*(std::log(volGain)/std::log(10)))/1000000;
+            setMixGain(MIXGAIN_SYS,round(dbOut));
+            TTSLOG_VERBOSE("Pre vol=%0.5f Cur vol=%0.5f volGain=%0.5f dbOut =%0.5f", preVol,data.client->configuration()->volume(), 
 		   volGain,dbOut);
-	   preVol = data.client->configuration()->volume();
-         }
+            preVol = data.client->configuration()->volume();
+        }
 	//-12db is almost 25%
 	setMixGain(MIXGAIN_PRIM,-12);
 
