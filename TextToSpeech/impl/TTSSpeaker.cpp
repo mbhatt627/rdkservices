@@ -845,13 +845,17 @@ std::string TTSSpeaker::constructURL(TTSConfiguration &config, SpeechData &d) {
 void TTSSpeaker::speakText(TTSConfiguration config, SpeechData &data) {
     m_isEOS = false;
     m_duration = 0;
+    static double preVol= 0; //We do not allow 0 volume
 
     if(m_pipeline && !m_pipelineError && !m_flushed) {
         m_currentSpeech = &data;
 
         g_object_set(G_OBJECT(m_source), "location", constructURL(config, data).c_str(), NULL);
         // PCM Sink seems to be accepting volume change before PLAYING state
-        g_object_set(G_OBJECT(m_audioVolume), "volume", (double) (data.client->configuration()->volume() / MAX_VOLUME), NULL);
+        if(preVol != data.client->configuration()->volume()) {
+            g_object_set(G_OBJECT(m_audioVolume), "volume", (double) (data.client->configuration()->volume() / MAX_VOLUME), NULL);
+            preVol = data.client->configuration()->volume();
+       }
         gst_element_set_state(m_pipeline, GST_STATE_PLAYING);
 #if defined(PLATFORM_AMLOGIC)
         //-12db is almost 25%
