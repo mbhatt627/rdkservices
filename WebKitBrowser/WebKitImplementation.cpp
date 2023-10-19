@@ -543,7 +543,7 @@ static GSourceFuncs _handlerIntervention =
                 , EnvironmentVariables()
                 , ContentFilter()
                 , LoggingTarget()
-                , WebAudioEnabled(true)
+                , WebAudioEnabled(false)
             {
                 Add(_T("useragent"), &UserAgent);
                 Add(_T("url"), &URL);
